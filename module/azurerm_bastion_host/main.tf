@@ -1,9 +1,5 @@
-variable "bastions" {
-  type = map(any)
-}
-
 resource "azurerm_bastion_host" "bastion_host" {
-  for_each            = var.bastions
+  for_each            = var.child_bastions
   name                = each.value.name
   location            = each.value.location
   resource_group_name = each.value.resource_group_name

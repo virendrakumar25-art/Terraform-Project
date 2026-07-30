@@ -1,8 +1,5 @@
-variable "pips"{
-    type = map(any)
-}
 resource "azurerm_public_ip" "public_ip" {
-    for_each = var.pips
+  for_each            = var.child_pips
   name                = each.value.name
   resource_group_name = each.value.resource_group_name
   location            = each.value.location

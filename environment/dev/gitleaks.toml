@@ -1,0 +1,10 @@
+title = "Test"
+
+[[rules]]
+id = "password"
+
+description = "Detect Password"
+
+regex = '''admin_password\s*=\s*"([^"]+)"'''
+
+secretGroup = 1

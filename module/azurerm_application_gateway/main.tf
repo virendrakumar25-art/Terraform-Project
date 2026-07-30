@@ -1,9 +1,5 @@
-variable "appgws" {
-  type = map(any)
-}
-
 resource "azurerm_application_gateway" "appgw" {
-  for_each            = var.appgws
+  for_each            = var.child_appgws
   name                = each.value.name
   resource_group_name = each.value.resource_group_name
   location            = each.value.location

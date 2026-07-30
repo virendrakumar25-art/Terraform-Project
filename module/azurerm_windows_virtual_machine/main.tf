@@ -1,9 +1,5 @@
-variable "win_vms" {
-  type = map(any)
-}
-
 resource "azurerm_network_interface" "win_nic" {
-  for_each            = var.win_vms
+  for_each            = var.child_win_vms
   name                = each.value.nic_name
   location            = each.value.nic_location
   resource_group_name = each.value.resource_group_name
@@ -11,13 +7,13 @@ resource "azurerm_network_interface" "win_nic" {
   ip_configuration {
     name                          = each.value.ip_configuration
     subnet_id                     = data.azurerm_subnet.subnet[each.key].id
-    public_ip_address_id          = lookup(each.value, "pip_name", null) != null ? data.azurerm_public_ip.public_ip[each.key].id : null
+    public_ip_address_id          = data.azurerm_public_ip.public_ip[each.key].id
     private_ip_address_allocation = each.value.private_ip_address_allocation
   }
 }
 
 resource "azurerm_windows_virtual_machine" "windows_virtual_machine" {
-  for_each              = var.win_vms
+  for_each              = var.child_win_vms
   name                  = each.value.vm_name
   resource_group_name   = each.value.resource_group_name
   location              = each.value.vm_location

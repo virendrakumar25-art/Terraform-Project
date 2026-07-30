@@ -1,16 +1,12 @@
-variable "lbs" {
-  type = map(any)
-}
-
 resource "azurerm_lb" "lb" {
-  for_each            = var.lbs
+  for_each            = var.child_lbs
   name                = each.value.name
   location            = each.value.location
   resource_group_name = each.value.resource_group_name
-  sku                 = lookup(each.value, "sku", "Standard")
+  sku                 = each.value.sku
 
   frontend_ip_configuration {
     name                 = each.value.frontend_ip_configuration_name
-    public_ip_address_id = lookup(each.value, "pip_name", null) != null ? data.azurerm_public_ip.pip[each.key].id : null
+    public_ip_address_id = data.azurerm_public_ip.public_ip[each.key].id
   }
 }

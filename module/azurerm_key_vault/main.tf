@@ -1,9 +1,5 @@
-variable "key_vaults" {
-  type = map(any)
-}
-
 resource "azurerm_key_vault" "key_vault" {
-  for_each                    = var.key_vaults
+  for_each                    = var.child_key_vaults
   name                        = each.value.name
   location                    = each.value.location
   resource_group_name         = each.value.resource_group_name

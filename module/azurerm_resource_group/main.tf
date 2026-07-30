@@ -1,8 +1,5 @@
-variable "rgs" {
-    type = map(any)
-    }
 resource "azurerm_resource_group" "resource_group" {
-    for_each = var.rgs
+  for_each = var.child_rgs
   name     = each.value.name
   location = each.value.location
 }
